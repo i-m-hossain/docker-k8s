@@ -1,19 +1,11 @@
 ## Development workflow:
-Developement <--
- |             | 
-Test           |
- |             |
-Deploy -------->
+Developement --> Test--> Deploy (repeat the process) 
 
-Flow specification:
------------------------------------------------------
-                   Github Repo                      |
------------------------------------------------------
-Feature branch ---->(pull request)---> Master branch|----> Travis CI ----> AWS Hosting
------------------------------------------------------
-       |
-       |
-    Developer
+Flow specification:                    
+
+Feature branch --->(pull request)---> Master branch ---> Travis CI ---> AWS Hosting
+|
+Developer
 
 ## Docker compose commands:
 - `docker-compose up` equivalent to `docker run image_name/id`
@@ -26,13 +18,8 @@ Feature branch ---->(pull request)---> Master branch|----> Travis CI ----> AWS H
 - Used to start up multiple Docker Containers at the same time
 - Automates some of the long winded arguments we were passing to docker run
 
-``
-----------------------------------------------------------------------------------
-docker build -t imran/web-app .        |                    |                    |
-                                       | docker-compose.yml | docker-compose CLI |
-docker run  -p 5000:5000 imran/web-app |                    |                    |
-----------------------------------------------------------------------------------
-``
+docker build -t imran/web-app . && docker run  -p 5000:5000 imran/web-app --> docker-compose.yml --> docker-compose CLI 
+
 ## Minimizing cache busting:
 By default, when we build an image from a docker file, Docker keeps track of every line in dockerfile and tries to use cache. Any corresponding line represents a change, it will try to rebuild the consequtive lines instead of using caching. We should try to avoid such cases so that all build process happenning again.
 ## Docker build vs docker create vs docker start vs docker run
