@@ -1,11 +1,43 @@
+## Multi step  Dokcer builds:
+
+**Build phase**
+- use node:alpine
+- copy the package.json file
+- install dependencies
+- run npm build
+
+**Run phase**
+- use nginx
+- copy over the result of 'npm run build' (previous stage)
+- start nginx
+
+## Why do we need nginx:
+While we can use development server to develop our application, but the development server is not used in production. For example, react application uses webpack as its web server for the local development. But when we make a production build using   `npm run build`, it only prepares the correponding html and js file. So there is no web server for production build. Here we need an aditional web server like nginx to serve the html and js file. 
+
+Thus we need a nginx server.
+
+
+## Docker Volume:
+Docker volume is essentially a folder mapping from local environment to docker container much like port mappin g.
+
+Syntax:
+`docker run -p 3000:3000 --name=container_name -v /app/node_modules -v $(pwd):/app image_name/id`
+
+- `-v $(pwd):/app` meaning map the present working directory into the app folder
+- `-v /app/node_modules` meaning put a bookmark on the node_modules folder
+
+## Hot module reloading
+We come to this problem often when we change something in the local environment, the corresponding docker container does not reflect the changes. First of all it is the normal behaviour as we haven't specified any instruction to propagate those changes in the container. Morever, when we build an image we took a snapshot of the local environment and build an image out of that. This image with the snapshot of the local environment then forms a container. So there is no direct communication between the container and local codebases. So whenever we change something the chaged code refection doesn't happen in the container.
+
+**The solution is to use Docker volume** which enables us to propagate changes in local environment to docker container. Docker volume is similar to port mapping. For docker volume it is folder mapping.
+
 ## Development workflow:
 Developement --> Test--> Deploy (repeat the process) 
 
 Flow specification:                    
 
-Feature branch --->(pull request)---> Master branch ---> Travis CI ---> AWS Hosting
-|
-Developer
+Developer <--> Feature branch --->(pull request)---> Master branch ---> Travis CI(Tests run)---> Merge PR with master - --> Code pushed to Travis CI ---> Deploy to AWS elastic beanstock (Hosting)
+
 
 ## Docker compose commands:
 - `docker-compose up` equivalent to `docker run image_name/id`
@@ -59,7 +91,8 @@ By default, when we build an image from a docker file, Docker keeps track of eve
 - Docker file create command: `docker build dockercontext` or if Dockerfile is on root directory  `docker build .`
 - To add a docker image name(aka tag) simply add a tagname like this `docker build -t imran/redis:latest .` The convention is used for image tag as follows:
     - your_docker_id/repo_or_project_name:version
-
+- To build a custom named docker file:
+    - `docker build -t imran/react -f Dockerfile.dev(custom name) .`
         
 
 ## Docker commands:
