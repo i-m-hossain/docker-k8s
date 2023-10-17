@@ -1,4 +1,4 @@
-## Multi step  Dokcer builds:
+## Multi step  Docker builds:
 
 **Build phase**
 - use node:alpine
