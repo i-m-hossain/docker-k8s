@@ -1,5 +1,8 @@
+## Multi container application:
+Workflow:
+- user --> submit-number--> React app -->Express server -->Redis <----> Worker
+-                                                       -->Postgreess
 ## Multi step  Docker builds:
-
 **Build phase**
 - use node:alpine
 - copy the package.json file
