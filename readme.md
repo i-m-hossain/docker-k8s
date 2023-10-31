@@ -1,3 +1,32 @@
+
+
+## difference between Docker compose & K8s
+1.1 compose - Each entry can optionally get docker compose to build an image
+1.2 k8s - Kubernetes expects all images to already be built
+
+2.1 compose- Each entry represents a container we want to create
+2.2 k8s - One config file per object we want to create
+
+3.1 compose - Each entry defines the networking requirements
+3.2 k8s - We have to manually set up all networking
+
+## Local kubernetes development
+- **install Kubectl:** CLI for interacting with our master
+- **Install a VM driver virtualbox:** Used to make a VM that will be your single node
+- **Install minikube**: Runs a single node on that vm
+
+## Working with K8s:
+- Development: Minikube
+- Production: Amazon Elastic Container(EKS), Google Cloud Kubernetes Engine (GKE), Do it yourself
+
+
+*kubectl*- used for managing containers in the (local + prod)
+*minikube*- used for managing the VM itself (local)
+
+## Kubernetes what and why:
+1. **What**: System for running many different containers over multiple different machines
+3. **Why**: When you need to run many different containers with different images
+
 ## Multi container application:
 Workflow:
 - user --> submit-number--> React app -->Express server -->Redis <----> Worker
